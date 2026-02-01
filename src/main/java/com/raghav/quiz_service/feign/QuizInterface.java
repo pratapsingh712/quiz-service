@@ -14,13 +14,13 @@ import java.util.List;
 @FeignClient("QUESTION-SERVICE")
 public interface QuizInterface {
 
-    @GetMapping("generate")
+    @GetMapping("question/generate")
     public ResponseEntity<List<Integer>>getQuestionsForQuiz(@RequestParam String categoryName, @RequestParam Integer numQuestions);
 
-    @PostMapping("getQuestions")
+    @PostMapping("question/getQuestions")
     public ResponseEntity<List<QuestionWrapper>> getQuestionsFromId(@RequestBody List<Integer> questionsIds);
 
-    @PostMapping("getScore")
+    @PostMapping("question/getScore")
     public ResponseEntity<Integer> getScore(@RequestBody List<Response> responses);
 
 }
