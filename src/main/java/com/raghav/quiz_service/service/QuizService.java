@@ -1,7 +1,9 @@
 package com.raghav.quiz_service.service;
 
 import com.raghav.quiz_service.dao.QuizDao;
+import com.raghav.quiz_service.feign.QuizInterface;
 import com.raghav.quiz_service.model.QuestionWrapper;
+import com.raghav.quiz_service.model.Quiz;
 import com.raghav.quiz_service.model.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,19 +20,18 @@ public class QuizService {
     @Autowired
     QuizDao quizDao;
 
-//    @Autowired
-//    QuestionDao questionDao;
+    @Autowired
+    QuizInterface quizInterface;
 
     public ResponseEntity<String> createQuiz(String category, int numQ, String title) {
+        //List<Integer> questions = //call the generate url - RestTemplate http://localhost:8080/question/generated
 
-        RestTemplate
+        List<Integer> questions = quizInterface.getQuestionsForQuiz(category,numQ).getBody();
 
-        List<Integer> questions = //call the generate url - restTemplate http://localhost:8080/question/generated
-//
-//        Quiz quiz = new Quiz();
-//        quiz.setTitle(title);
-//        quiz.setQuestions(questions);
-//        quizDao.save(quiz);
+        Quiz quiz = new Quiz();
+        quiz.setTitle(title);
+        quiz.setQuestions(questions);
+        quizDao.save(quiz);
 
         return new ResponseEntity<>("Success", HttpStatus.CREATED);
     }
